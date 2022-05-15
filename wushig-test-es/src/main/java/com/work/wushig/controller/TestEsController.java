@@ -41,8 +41,8 @@ public class TestEsController {
         param.put("pageFrom","0");
         param.put("pageSize","10");
         final HashMap<String, Object> stringObjectHashMap = wushigElasticConnector.execGet("/elastic/dmsCommonUsedTopicalMapper.xml",
-                "getTopicalList",
-                "dms_common_used_topical",
+                "XXX",
+                "XXX",
                 param,
                 CommonUsedTopical.class);
         return JSON.toJSONString(stringObjectHashMap);

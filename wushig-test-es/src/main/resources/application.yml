@@ -3,7 +3,7 @@ server:
 wushig:
   elastic:
     enable: true
-    hostName: 192.168.0.17
+    hostName: ***
     port: 9200
   log:
     enable: true
