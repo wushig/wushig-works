@@ -48,9 +48,9 @@
 
 4. 启动项目即可看到效果
    
-   ![截图](45afbd8a864e991db31ebca19cbae367.png)
+   ![image](https://user-images.githubusercontent.com/29161527/168480957-7117b9a2-03e3-4fcb-a9eb-eb9836862906.png)
    
-   ![截图](12bf264da0ce71b37a4973759f4b6a29.png)
+   ![image](https://user-images.githubusercontent.com/29161527/168480963-d5fa8866-199e-4dd0-9dd4-3c62a3ac9d25.png)
    > 标注了**wushig-log-info-starter**的日志即为本插件输出的日志
    > 
    > **并且所有的日志都为彩色日志**
@@ -203,7 +203,7 @@
 5. 开始调用方法
    > 具体方法参数可以进项目查看，这里只说明方法基本功能
    > 
-   > ![截图](a41343393eab624b9ddf55e8325b2b57.png)
+   > ![image](https://user-images.githubusercontent.com/29161527/168481006-c88c9522-cba5-4456-a628-dd8f444276dd.png)
    ```java
    public class TestEsController {
    
