@@ -31,7 +31,7 @@
 3. 配置使用环境
    > 另外还有一些关于线程池的配置可以在代码提示中看到，可以自己看看
    
-      截图
+   ![image](https://user-images.githubusercontent.com/29161527/168480893-8bb63c1f-5575-4379-9fa2-f1e07f10fe37.png)
    ```yaml
    wushig:
      log:
