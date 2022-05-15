@@ -24,177 +24,177 @@
                               }
                             },
                         #end
-                        #if(${stdNo} != '')
+                        #if(${XXX} != '')
                             {
                               "query_string": {
                                 "fields": [
-                                  "std_no"
+                                  "XXX"
                                 ],
-                                "query": "${stdNo}",
+                                "query": "${XXX}",
                                 "type": "phrase"
                               }
                             },
                         #end
-                        #if(${stdName} != '')
+                        #if(${XXX} != '')
                             {
                               "query_string": {
                                 "fields": [
-                                  "std_name"
+                                  "XXX"
                                 ],
-                                "query": "${stdName}",
+                                "query": "${XXX}",
                                 "type": "phrase"
                               }
                             },
                         #end
-                        #if(${stdUuid} != '')
+                        #if(${XXX} != '')
                             {
                               "query_string": {
                                 "fields": [
-                                  "std_uuid"
+                                  "XXX"
                                 ],
-                                "query": "${stdUuid}",
+                                "query": "${XXX}",
                                 "type": "phrase"
                               }
                             },
                         #end
-                        #if(${stdId} != '')
+                        #if(${XXX} != '')
                             {
                               "query_string": {
                                 "fields": [
-                                  "std_id"
+                                  "XXX"
                                 ],
-                                "query": "${stdId}",
+                                "query": "${XXX}",
                                 "type": "phrase"
                               }
                             },
                         #end
-                        #if(${approveStatus} != '')
+                        #if(${XXX} != '')
                             {
                               "term": {
-                                "approve_status.keyword": ${approveStatus}
+                                "XXX.keyword": ${XXX}
                               }
                             },
                         #end
-                        #if(${hasStruct} != '')
+                        #if(${XXX} != '')
                             {
                               "term": {
-                                "has_struct.keyword": ${hasStruct}
+                                "XXX.keyword": ${XXX}
                               }
                             },
                         #end
-                        #if(${hasPdfFile} != '')
+                        #if(${XXX} != '')
                             {
                               "term": {
-                                "has_pdf_file.keyword": ${hasPdfFile}
+                                "XXX.keyword": ${XXX}
                               }
                             },
                         #end
-                        #if(${stdCategory} != '')
+                        #if(${XXX} != '')
                             {
                               "term": {
-                                "std_category.keyword": ${stdCategory}
+                                "XXX.keyword": ${XXX}
                               }
                             },
                         #end
-                        #if(${inputAtStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
-                            "input_at": {
-                              "gte": "${inputAtStart}",
-                              "lt": "${inputAtEnd}",
+                            "XXX": {
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${approvalAtStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
-                            "approve_at": {
-                              "gte": "${approvalAtStart}",
-                              "lt": "${approvalAtEnd}",
+                            "XXX": {
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${processAtStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
-                            "process_at": {
-                              "gte": "${processAtStart}",
-                              "lt": "${processAtEnd}",
+                            "XXX": {
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${publishDateStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
-                            "std_publish_date": {
-                              "gte": "${publishDateStart}",
-                              "lt": "${publishDateEnd}",
+                            "XXX": {
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${doDateStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
                             "std_do_date": {
-                              "gte": "${doDateStart}",
-                              "lt": "${doDateEnd}",
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${expiredDateStart} != '')
+                        #if(${XXX} != '')
                         {
                           "range": {
-                            "std_expired_date": {
-                              "gte": "${expiredDateStart}",
-                              "lt": "${expiredDateEnd}",
+                            "XXX": {
+                              "gte": "${XXX}",
+                              "lt": "${XXX}",
                               "format": "yyyy-MM-dd"
                             }
                           }
                         },
                         #end
-                        #if(${stdType} != '')
+                        #if(${XXX} != '')
                             {
                               "term": {
-                                "std_type": ${stdType}
+                                "std_type": ${XXX}
                               }
                             },
                         #end
-                        #if(${stdState} == '0')
-                            {"exists": {"field": "std_id"}},
+                        #if(${XXX} == '0')
+                            {"exists": {"field": "XXX"}},
                         #end
-                        #if(${stdState} == '6')
+                        #if(${XXX} == '6')
                         {
                         "exists":{
-                                    "field":"std_do_date"
+                                    "field":"XXX"
                                 }
                         },
                         {
                         "range":{
-                                    "std_do_date":{
+                                    "XXX":{
                                         "gt": "now/s"
                                     }
                                 }
                         },
                         #end
-                        #if(${stdState} == '7')
+                        #if(${XXX} == '7')
                         {
                               "exists": {
-                                "field": "std_do_date"
+                                "field": "XXX"
                               }
                             },
                             {
                               "range": {
-                                "std_do_date": {
+                                "XXX": {
                                   "lt": "now/s"
                                 }
                               }
@@ -204,7 +204,7 @@
                                 "should": [
                                   {
                                     "range": {
-                                      "std_expired_date": {
+                                      "XXX": {
                                         "gt": "now/s"
                                       }
                                     }
@@ -214,7 +214,7 @@
                                       "must_not": [
                                         {
                                           "exists": {
-                                            "field": "std_expired_date"
+                                            "field": "XXX"
                                           }
                                         }
                                       ]
@@ -224,49 +224,49 @@
                               }
                             },
                         #end
-                        #if(${stdState} == '8')
+                        #if(${XXX} == '8')
                         {"exists":{
-                            "field":"std_expired_date"
+                            "field":"XXX"
                         }},
                         {"range":{
-                            "std_expired_date":{
+                            "XXX":{
                                 "lte": "now/s"
                             }
                         }},
                         #end
-                        {"exists": {"field": "std_id"}}
+                        {"exists": {"field": "XXX"}}
                       ]
                     }
                   },
                 "sort": [
                     {
-                      #if(${needDefaultSort} == '1')
+                      #if(${XXX} == '1')
                       "sort": {
                             "order": "asc"
                           },
                       #end
-                      #if(${sortField} != '')
-                          "${sortField}": {
-                            "order": "$sortWay"
+                      #if(${XXX} != '')
+                          "${XXX}": {
+                            "order": "XXX"
                           }
                       #end
-                      #if(${sortField} == '')
-                          "process_at": {
+                      #if(${XXX} == '')
+                          "XXX": {
                             "order": "desc"
                           },
-                          "input_at": {
+                          "XXX": {
                             "order": "desc"
                           }
                       #end
                     }
                   ],
                   "collapse": {
-                    "field": "std_id"
+                    "field": "XXX"
                   },
                   "aggs": {
                     "total_size": {
                       "cardinality": {
-                        "field": "std_id",
+                        "field": "XXX",
                         "precision_threshold": 40000
                       }
                     }
