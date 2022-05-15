@@ -1,0 +1,278 @@
+<properties>
+    <property name="getTopicalList">
+        <![CDATA[{
+                "query": {
+                    "bool": {
+                      "must": [
+                        #if(${searchValue} != '')
+                            {
+                              "query_string": {
+                                "query": "${searchValue}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${searchValueForNameOrNo} != '')
+                            {
+                              "query_string": {
+                                "fields": [
+                                  "std_no",
+                                  "std_name"
+                                ],
+                                "query": "${searchValueForNameOrNo}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${stdNo} != '')
+                            {
+                              "query_string": {
+                                "fields": [
+                                  "std_no"
+                                ],
+                                "query": "${stdNo}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${stdName} != '')
+                            {
+                              "query_string": {
+                                "fields": [
+                                  "std_name"
+                                ],
+                                "query": "${stdName}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${stdUuid} != '')
+                            {
+                              "query_string": {
+                                "fields": [
+                                  "std_uuid"
+                                ],
+                                "query": "${stdUuid}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${stdId} != '')
+                            {
+                              "query_string": {
+                                "fields": [
+                                  "std_id"
+                                ],
+                                "query": "${stdId}",
+                                "type": "phrase"
+                              }
+                            },
+                        #end
+                        #if(${approveStatus} != '')
+                            {
+                              "term": {
+                                "approve_status.keyword": ${approveStatus}
+                              }
+                            },
+                        #end
+                        #if(${hasStruct} != '')
+                            {
+                              "term": {
+                                "has_struct.keyword": ${hasStruct}
+                              }
+                            },
+                        #end
+                        #if(${hasPdfFile} != '')
+                            {
+                              "term": {
+                                "has_pdf_file.keyword": ${hasPdfFile}
+                              }
+                            },
+                        #end
+                        #if(${stdCategory} != '')
+                            {
+                              "term": {
+                                "std_category.keyword": ${stdCategory}
+                              }
+                            },
+                        #end
+                        #if(${inputAtStart} != '')
+                        {
+                          "range": {
+                            "input_at": {
+                              "gte": "${inputAtStart}",
+                              "lt": "${inputAtEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${approvalAtStart} != '')
+                        {
+                          "range": {
+                            "approve_at": {
+                              "gte": "${approvalAtStart}",
+                              "lt": "${approvalAtEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${processAtStart} != '')
+                        {
+                          "range": {
+                            "process_at": {
+                              "gte": "${processAtStart}",
+                              "lt": "${processAtEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${publishDateStart} != '')
+                        {
+                          "range": {
+                            "std_publish_date": {
+                              "gte": "${publishDateStart}",
+                              "lt": "${publishDateEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${doDateStart} != '')
+                        {
+                          "range": {
+                            "std_do_date": {
+                              "gte": "${doDateStart}",
+                              "lt": "${doDateEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${expiredDateStart} != '')
+                        {
+                          "range": {
+                            "std_expired_date": {
+                              "gte": "${expiredDateStart}",
+                              "lt": "${expiredDateEnd}",
+                              "format": "yyyy-MM-dd"
+                            }
+                          }
+                        },
+                        #end
+                        #if(${stdType} != '')
+                            {
+                              "term": {
+                                "std_type": ${stdType}
+                              }
+                            },
+                        #end
+                        #if(${stdState} == '0')
+                            {"exists": {"field": "std_id"}},
+                        #end
+                        #if(${stdState} == '6')
+                        {
+                        "exists":{
+                                    "field":"std_do_date"
+                                }
+                        },
+                        {
+                        "range":{
+                                    "std_do_date":{
+                                        "gt": "now/s"
+                                    }
+                                }
+                        },
+                        #end
+                        #if(${stdState} == '7')
+                        {
+                              "exists": {
+                                "field": "std_do_date"
+                              }
+                            },
+                            {
+                              "range": {
+                                "std_do_date": {
+                                  "lt": "now/s"
+                                }
+                              }
+                            },
+                            {
+                              "bool": {
+                                "should": [
+                                  {
+                                    "range": {
+                                      "std_expired_date": {
+                                        "gt": "now/s"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "bool": {
+                                      "must_not": [
+                                        {
+                                          "exists": {
+                                            "field": "std_expired_date"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                        #end
+                        #if(${stdState} == '8')
+                        {"exists":{
+                            "field":"std_expired_date"
+                        }},
+                        {"range":{
+                            "std_expired_date":{
+                                "lte": "now/s"
+                            }
+                        }},
+                        #end
+                        {"exists": {"field": "std_id"}}
+                      ]
+                    }
+                  },
+                "sort": [
+                    {
+                      #if(${needDefaultSort} == '1')
+                      "sort": {
+                            "order": "asc"
+                          },
+                      #end
+                      #if(${sortField} != '')
+                          "${sortField}": {
+                            "order": "$sortWay"
+                          }
+                      #end
+                      #if(${sortField} == '')
+                          "process_at": {
+                            "order": "desc"
+                          },
+                          "input_at": {
+                            "order": "desc"
+                          }
+                      #end
+                    }
+                  ],
+                  "collapse": {
+                    "field": "std_id"
+                  },
+                  "aggs": {
+                    "total_size": {
+                      "cardinality": {
+                        "field": "std_id",
+                        "precision_threshold": 40000
+                      }
+                    }
+                  },
+                  "from": ${pageFrom},
+                  "size": ${pageSize}
+        }]]>
+    </property>
+</properties>

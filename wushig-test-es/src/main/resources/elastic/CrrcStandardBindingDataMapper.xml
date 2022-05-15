@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="gb2312"?>
+<properties>
+    <property name="searchAggsWithStdType">
+        <![CDATA[{
+              "query": {
+                "term": {
+                  "std_catalog_code.keyword": {
+                    "value": "${stdCatalogCode}"
+                  }
+                }
+              },
+              "size": 0,
+              "aggs": {
+                "group_by_tags": {
+                  "terms": {
+                    "field": "std_type"
+                  }
+                }
+              }
+        }]]>
+    </property>
+
+    <property name="searchAggsWithStdTypeAndPhaseNoApprove">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "std_catalog_code.keyword": {
+                      "value": "$stdCatalogCode"
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "std_type": {
+                      "value": 1400
+                    }
+                  }
+                },
+                {
+                  "exists": {
+                    "field": "std_stage"
+                  }
+                },
+                {
+                  "bool": {
+                    "should": [
+                      {
+                        "range": {
+                          "std_stage": {
+                            "lt": 70
+                          }
+                        }
+                      },
+                      {
+                        "term": {
+                          "std_stage": {
+                            "value": 95
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "size": 0
+        }]]>
+    </property>
+
+    <property name="searchAggsWithStdTypeAndPhaseHasApprove">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "std_catalog_code.keyword": {
+                      "value": "$stdCatalogCode"
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "std_type": {
+                      "value": 1400
+                    }
+                  }
+                },
+                {
+                  "exists": {
+                    "field": "std_stage"
+                  }
+                },
+                {
+                  "range": {
+                    "std_stage": {
+                      "gte": 70
+                    }
+                  }
+                }
+              ],
+              "must_not": [
+                {
+                  "term": {
+                    "std_stage": {
+                      "value": 95
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "_source": "std_stage",
+          "size": 0
+        }]]>
+    </property>
+</properties>

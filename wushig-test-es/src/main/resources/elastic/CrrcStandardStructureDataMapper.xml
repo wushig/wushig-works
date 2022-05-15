@@ -1,0 +1,106 @@
+<properties>
+    <property name="getStructureDataByStdNo">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "std_id": {
+                      "value": "$stdId"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "from": 0,
+          "size": 100000
+        }]]>
+    </property>
+
+
+    <property name="getStructureDataByModel">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                #if(${searchValue} != '')
+                {
+                  "query_string": {
+                    "fields": [
+                      "std_content"
+                    ],
+                    "query": "${searchValue}",
+                    "type": "phrase"
+                  }
+                },
+                #end
+                #if(${stdId} != '')
+                {
+                  "term": {
+                    "std_id": {
+                      "value": ${stdId}
+                    }
+                  }
+                },
+                #end
+                #if(${isCatalog} != '')
+                {
+                  "term": {
+                    "is_catalog": {
+                      "value": ${isCatalog}
+                    }
+                  }
+                },
+                #end
+                {
+                  "exists": {
+                    "field": "std_id"
+                  }
+                }
+              ]
+            }
+          },
+          "from": 0,
+          "size": 10000
+        }]]>
+    </property>
+
+    <property name="searchFullText">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                #if($searchValue != '')
+                {
+                  "query_string": {
+                    "query": "$searchValue",
+                    "type": "phrase"
+                  }
+                },
+                #end
+                {
+                  "exists": {
+                    "field": "std_id"
+                  }
+                }
+              ]
+            }
+          },
+        "collapse": {
+            "field": "std_id"
+          },
+          "aggs": {
+            "total_size": {
+              "cardinality": {
+                "field": "std_id",
+                "precision_threshold": 40000
+              }
+            }
+          },
+          "from": $pageFrom,
+          "size": $pageSize
+        }]]>
+    </property>
+</properties>

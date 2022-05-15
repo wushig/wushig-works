@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.work.wushig.config.WushigElasticConnectorConfig,\
+  com.work.wushig.connction.WushigElasticConnector
+
+  

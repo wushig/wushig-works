@@ -1,0 +1,12 @@
+server:
+  port: 10000
+wushig:
+  elastic:
+    enable: true
+    hostName: 192.168.0.17
+    port: 9200
+  log:
+    enable: true
+    enableController: true
+    enableAnnotation: true
+    RecordLogClassInfo: myLogSaver

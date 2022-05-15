@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.work.wushig.config.WushigLogInfoConfig,\
+  com.work.wushig.aspect.RecordLogAspectForAnnotation,\
+  com.work.wushig.aspect.RecordLogAspectForController,\
+  com.work.wushig.service.WushigLogSaver,\
+  com.work.wushig.config.WushigFilter,\
+  com.work.wushig.config.InfoFilter
