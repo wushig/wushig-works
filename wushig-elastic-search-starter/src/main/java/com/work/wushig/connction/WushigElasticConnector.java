@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.google.gwt.thirdparty.guava.common.base.CaseFormat;
 import com.google.gwt.thirdparty.guava.common.base.Joiner;
 import com.work.wushig.domain.ESEntity;
@@ -316,7 +317,7 @@ public class WushigElasticConnector {
             }
             //新增一条
             Request request = new Request(PUT, indexName + SPLIT + type + SPLIT + UUIDUtils.generateUUIDForIDs());
-            String sql = JSONObject.toJSONString(t,SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);
+            final String sql = toJSONStringWithoutIdAndWithNull(t);
             request.addParameter("pretty", "true");
             request.setJsonEntity(sql);
             Response response = wushigESClient.performRequest(request);
@@ -340,12 +341,9 @@ public class WushigElasticConnector {
                 throw new RuntimeException("修改实体必须拥有_id字段");
             }
             Request request = new Request(POST, indexName + SPLIT + type + SPLIT + t.get_id() + UPDATE);
-            String sql = JSONObject.toJSONString(t);
-            final Map doc = JSONObject.parseObject(sql, Map.class);
-            //删除_id字段，这是meta字段不能在更新的时候使用
-            doc.remove("_id");
+            final String sql = toJSONStringWithoutIdAndNull(t);
             HashMap<String, Object> param = new HashMap<>();
-            param.put("doc", doc);
+            param.put("doc", JSONObject.parseObject(sql));
             request.addParameter("pretty", "true");
             request.setJsonEntity(JSON.toJSONString(param));
             Response response = wushigESClient.performRequest(request);
@@ -382,6 +380,23 @@ public class WushigElasticConnector {
             e.printStackTrace();
             return e.getMessage();
         }
+    }
+
+
+    private String toJSONStringWithoutIdAndWithNull(Object o){
+        String[] excludeProperties = {"_id"};
+        PropertyPreFilters filters = new PropertyPreFilters();
+        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
+        excludefilter.addExcludes(excludeProperties);
+        return JSONObject.toJSONString(o,excludefilter,SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);
+    }
+
+    private String toJSONStringWithoutIdAndNull(Object o){
+        String[] excludeProperties = {"_id"};
+        PropertyPreFilters filters = new PropertyPreFilters();
+        PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
+        excludefilter.addExcludes(excludeProperties);
+        return JSONObject.toJSONString(o,excludefilter,SerializerFeature.PrettyFormat);
     }
 
 
