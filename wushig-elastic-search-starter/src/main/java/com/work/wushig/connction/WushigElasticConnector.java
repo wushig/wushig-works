@@ -3,6 +3,7 @@ package com.work.wushig.connction;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.gwt.thirdparty.guava.common.base.CaseFormat;
 import com.google.gwt.thirdparty.guava.common.base.Joiner;
 import com.work.wushig.domain.ESEntity;
@@ -315,7 +316,7 @@ public class WushigElasticConnector {
             }
             //新增一条
             Request request = new Request(PUT, indexName + SPLIT + type + SPLIT + UUIDUtils.generateUUIDForIDs());
-            String sql = JSONObject.toJSONString(t);
+            String sql = JSONObject.toJSONString(t,SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);
             request.addParameter("pretty", "true");
             request.setJsonEntity(sql);
             Response response = wushigESClient.performRequest(request);
