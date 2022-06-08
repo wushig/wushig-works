@@ -1,9 +1,6 @@
 package com.work.wushig.service;
 
-import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * @Auther: gaojianjun

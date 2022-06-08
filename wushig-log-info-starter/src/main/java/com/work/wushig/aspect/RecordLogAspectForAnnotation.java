@@ -1,6 +1,5 @@
 package com.work.wushig.aspect;
 
-import com.alibaba.fastjson.JSONObject;
 import com.work.wushig.annotations.RecordLog;
 import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;

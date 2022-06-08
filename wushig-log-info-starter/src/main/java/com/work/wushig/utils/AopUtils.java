@@ -1,16 +1,13 @@
 package com.work.wushig.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;
-import com.work.wushig.enums.DATA_SOURCE_ENUM;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.MarkerFactory;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @Auther: gaojianjun

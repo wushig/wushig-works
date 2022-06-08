@@ -8,6 +8,7 @@ import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.google.gwt.thirdparty.guava.common.base.CaseFormat;
 import com.google.gwt.thirdparty.guava.common.base.Joiner;
 import com.work.wushig.domain.ESEntity;
+import com.work.wushig.domain.ESResult;
 import com.work.wushig.exception.XmlNotFoundException;
 import com.work.wushig.utils.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -213,10 +216,10 @@ public class WushigElasticConnector {
      * @return
      * @Description 执行查询信息, 通过本方法执行查询ES
      */
-    public synchronized <T> HashMap<String, Object> execGet(String xmlLocation, String namespace, String indexName, Map<String, String> param, Class<T> tClass) {
+    public synchronized <T> ESResult<T> execGet(String xmlLocation, String namespace, String indexName, Map<String, String> param, Class<T> tClass) {
         final long start = System.currentTimeMillis();
         StringBuffer logData = new StringBuffer();
-        HashMap<String, Object> res = new HashMap<>();
+        ESResult<T> res = new ESResult<>();
         this.searchContent = getXmlData(xmlLocation, namespace);
         final String paseEL = this.resolveSearchContent(searchContent, param);
         logData.append("\n当前查询信息为\n")
@@ -231,10 +234,10 @@ public class WushigElasticConnector {
             final JSONObject jsonObject = (JSONObject) JSONObject.parse(responseBody);
             //处理查询时间问题
             logData.append("- elastic耗费查询时间："+jsonObject.getInteger("took")+"\n");
-            res.put("took", jsonObject.getInteger("took"));
+            res.setTook(jsonObject.getInteger("took"));
             //处理总数问题
             logData.append("- elastic查询总数："+jsonObject.getJSONObject("hits").getInteger("total")+"\n");
-            res.put("total", jsonObject.getJSONObject("hits").getInteger("total"));
+            res.setTotal(jsonObject.getJSONObject("hits").getInteger("total"));
             //处理查询列表
             final JSONArray jsonArray = jsonObject.getJSONObject("hits").getJSONArray("hits");
             final List<JSONObject> source = jsonArray.stream().map(e -> {
@@ -248,9 +251,9 @@ public class WushigElasticConnector {
                 final T t = JSON.parseObject(JSON.toJSONString(replaceKeyLow(item)), tClass);
                 list.add(i, t);
             }
-            res.put("rows", list);
+            res.setRows(list);
             //处理分组查询
-            res.put("aggregations", jsonObject.getJSONObject("aggregations"));
+            res.setAggregations(jsonObject.getJSONObject("aggregations"));
             final long end = System.currentTimeMillis();
             logData.append("- 本次查询耗费总时间:"+(end - start)+"\n").append("本次查询结束\n");
             log.info(MarkerFactory.getMarker("WUSHIG"),logData.toString());

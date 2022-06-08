@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Wither;
-import org.springframework.stereotype.Component;
 
 /**
  * @Auther: gaojianjun

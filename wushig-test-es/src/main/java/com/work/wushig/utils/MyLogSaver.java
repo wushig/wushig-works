@@ -1,6 +1,5 @@
 package com.work.wushig.utils;
 
-import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;
 import com.work.wushig.domain.MyLogEntity;
 import com.work.wushig.service.WushigLogSaverProcesser;

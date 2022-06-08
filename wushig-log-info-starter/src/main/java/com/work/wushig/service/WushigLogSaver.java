@@ -1,14 +1,11 @@
 package com.work.wushig.service;
 
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
-import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;
 import com.work.wushig.enums.DATA_SOURCE_ENUM;
 import com.work.wushig.properties.WushigLogInfoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;

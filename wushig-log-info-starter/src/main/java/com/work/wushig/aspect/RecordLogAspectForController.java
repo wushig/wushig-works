@@ -1,6 +1,5 @@
 package com.work.wushig.aspect;
 
-import com.alibaba.fastjson.JSONObject;
 import com.work.wushig.annotations.RecordLog;
 import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.domain.LogEntity;
@@ -17,10 +16,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Auther: gaojianjun

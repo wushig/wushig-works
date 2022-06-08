@@ -1,6 +1,5 @@
 package com.work.wushig.config;
 
-import com.alibaba.fastjson.JSON;
 import com.work.wushig.properties.ElasticSearchProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
@@ -28,8 +27,6 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @Auther: gaojianjun

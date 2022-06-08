@@ -202,8 +202,7 @@
    ```
 5. 开始调用方法
    > 具体方法参数可以进项目查看，这里只说明方法基本功能
-   > 
-   > ![image](https://user-images.githubusercontent.com/29161527/168481006-c88c9522-cba5-4456-a628-dd8f444276dd.png)
+   >
    ```java
    public class TestEsController {
    
@@ -221,12 +220,12 @@
            param.put("pageFrom","0");
            param.put("pageSize","10");
            //执行查询功能
-           final HashMap<String, Object> stringObjectHashMap = wushigElasticConnector.execGet("/elastic/dmsCommonUsedTopicalMapper.xml",
+           ESResult<CommonUsedTopical> commonUsedTopicalESResult = wushigElasticConnector.execGet("/elastic/dmsCommonUsedTopicalMapper.xml",
                    "getTopicalList",
                    "dms_common_used_topical",
                    param,
                    CommonUsedTopical.class);
-           return JSON.toJSONString(stringObjectHashMap);
+           return JSON.toJSONString(commonUsedTopicalESResult);
        }
        @RequestMapping("testAdd")
        public String testAdd(){

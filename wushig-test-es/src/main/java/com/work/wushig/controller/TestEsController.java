@@ -1,13 +1,10 @@
 package com.work.wushig.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.work.wushig.annotations.RecordLog;
-import com.work.wushig.config.WushigElasticConnectorConfig;
-import com.work.wushig.config.WushigLogContext;
 import com.work.wushig.connction.WushigElasticConnector;
 import com.work.wushig.domain.CommonUsedTopical;
+import com.work.wushig.domain.ESResult;
 import com.work.wushig.domain.Product;
-import com.work.wushig.domain.Res;
 import com.work.wushig.service.ITestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +37,12 @@ public class TestEsController {
         Map<String, String> param = new HashMap<>();
         param.put("pageFrom","0");
         param.put("pageSize","10");
-        final HashMap<String, Object> stringObjectHashMap = wushigElasticConnector.execGet("/elastic/dmsCommonUsedTopicalMapper.xml",
+        ESResult<CommonUsedTopical> commonUsedTopicalESResult = wushigElasticConnector.execGet("/elastic/dmsCommonUsedTopicalMapper.xml",
                 "XXX",
                 "XXXX",
                 param,
                 CommonUsedTopical.class);
-        return JSON.toJSONString(stringObjectHashMap);
+        return JSON.toJSONString(commonUsedTopicalESResult);
     }
     @RequestMapping("testAdd")
     public String testAdd(){

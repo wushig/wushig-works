@@ -1,18 +1,8 @@
 package com.work.wushig.config;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.pattern.MessageConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.turbo.TurboFilter;
 import ch.qos.logback.core.filter.Filter;
-import ch.qos.logback.core.pattern.CompositeConverter;
 import ch.qos.logback.core.spi.FilterReply;
-import org.apache.logging.log4j.message.MessageFormatMessage;
-import org.slf4j.Marker;
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MessageFormatter;
-import org.springframework.boot.logging.logback.ColorConverter;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,25 +1,16 @@
 package com.work.wushig.config;
 
-import ch.qos.logback.classic.util.ContextInitializer;
 import com.work.wushig.properties.WushigLogInfoProperties;
-import com.work.wushig.utils.AopUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-import org.slf4j.helpers.BasicMarker;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.Date;
-import java.util.Iterator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
