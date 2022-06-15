@@ -3,6 +3,8 @@ package com.work.wushig.connction;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.PropertyNamingStrategy;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.google.gwt.thirdparty.guava.common.base.CaseFormat;
@@ -391,7 +393,9 @@ public class WushigElasticConnector {
         PropertyPreFilters filters = new PropertyPreFilters();
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
         excludefilter.addExcludes(excludeProperties);
-        return JSONObject.toJSONString(o,excludefilter,SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);
+        SerializeConfig serializeConfig = new SerializeConfig();
+        serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+        return JSONObject.toJSONString(o,serializeConfig,excludefilter,SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue);
     }
 
     private String toJSONStringWithoutIdAndNull(Object o){

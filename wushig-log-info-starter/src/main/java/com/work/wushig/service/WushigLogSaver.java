@@ -44,14 +44,14 @@ public class WushigLogSaver {
         if (logEntity.getData_source_enum().equals(DATA_SOURCE_ENUM.ANNOTATION) && !StringUtils.isEmpty(logEntity.getRecordClassInfo())) {
             recordClassInfo = logEntity.getRecordClassInfo();
         }
-        final String currenctThreadName = Thread.currentThread().getName();
+        final String currentThreadName = Thread.currentThread().getName();
         if(StringUtils.isEmpty(recordClassInfo)){
-            log.info(MarkerFactory.getMarker("WUSHIG"),"{},用户没有配置记录日志的方法（recordClassInfo）,没有保存日志...", currenctThreadName);
+            log.info(MarkerFactory.getMarker("WUSHIG"),"{},用户没有配置记录日志的方法（recordClassInfo）,没有保存日志...", currentThreadName);
             return;
         }
         Object bean = applicationContext.getBean(recordClassInfo);
         if(!(bean instanceof WushigLogSaverProcesser)){
-            log.error(MarkerFactory.getMarker("WUSHIG"),"{},记录日志的方法（recordClassInfo）不符合要求，必须实现WushigLogSaverProcesser类...",currenctThreadName);
+            log.error(MarkerFactory.getMarker("WUSHIG"),"{},记录日志的方法（recordClassInfo）不符合要求，必须实现WushigLogSaverProcesser类...",currentThreadName);
             return;
         }
         WushigLogSaverProcesser wushigLogSaverProcesser = (WushigLogSaverProcesser)bean;
