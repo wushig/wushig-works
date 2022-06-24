@@ -145,7 +145,14 @@ public class WushigElasticConnector {
         while (m.find()) {
             String group = m.group();
             final String key = group.replace("${", "").replace("}", "").trim();
-            m.appendReplacement(sr, resolveSearchValue(param.getOrDefault(key, "")));
+            String paramOrDefault = param.getOrDefault(key, "");
+            //如果包含','则是用户做过转换的，此时不需要在转换这个查询字符串
+            if(paramOrDefault.contains(",")){
+                m.appendReplacement(sr, paramOrDefault);
+            }else{
+                m.appendReplacement(sr, resolveSearchValue(paramOrDefault));
+            }
+
         }
         m.appendTail(sr);
         res = sr.toString();
