@@ -410,7 +410,9 @@ public class WushigElasticConnector {
         PropertyPreFilters filters = new PropertyPreFilters();
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
         excludefilter.addExcludes(excludeProperties);
-        return JSONObject.toJSONString(o,excludefilter,SerializerFeature.PrettyFormat);
+        SerializeConfig serializeConfig = new SerializeConfig();
+        serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
+        return JSONObject.toJSONString(o,serializeConfig,excludefilter,SerializerFeature.PrettyFormat);
     }
 
 
