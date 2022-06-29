@@ -36,6 +36,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -240,26 +243,35 @@ public class WushigElasticConnector {
             request.setJsonEntity(paseEL);
             Response response = wushigESClient.performRequest(request);
             String responseBody = EntityUtils.toString(response.getEntity());
-            final JSONObject jsonObject = (JSONObject) JSONObject.parse(responseBody);
+            final JSONObject jsonObject = JSON.parseObject(responseBody);//(JSONObject) JSONObject.parse(responseBody);
             //处理查询时间问题
             logData.append("- elastic耗费查询时间："+jsonObject.getInteger("took")+"\n");
             res.setTook(jsonObject.getInteger("took"));
             //处理总数问题
-            logData.append("- elastic查询总数："+jsonObject.getJSONObject("hits").getInteger("total")+"\n");
-            res.setTotal(jsonObject.getJSONObject("hits").getInteger("total"));
+            JSONObject hits = jsonObject.getJSONObject("hits");
+            logData.append("- elastic查询总数："+ hits.getInteger("total")+"\n");
+            res.setTotal(hits.getInteger("total"));
             //处理查询列表
-            final JSONArray jsonArray = jsonObject.getJSONObject("hits").getJSONArray("hits");
-            final List<JSONObject> source = jsonArray.stream().map(e -> {
-                final JSONObject sourceItem = ((JSONObject) e).getJSONObject("_source");
-                sourceItem.put("_id", ((JSONObject) e).getString("_id"));
-                return sourceItem;
+            final JSONArray jsonArray = hits.getJSONArray("hits");
+//            ForkJoinPool forkJoinPool = new ForkJoinPool(8);
+//            List<T> list = forkJoinPool.submit(() -> jsonArray.parallelStream()
+//                    .map(e->{
+//                        JSONObject object = ((JSONObject) e);
+//                        JSONObject sourceItem = object.getJSONObject("_source");
+//                        synchronized (forkJoinPool){
+//                            sourceItem.put("_id", object.getString("_id"));
+//                            return JSON.parseObject(JSON.toJSONString(replaceKeyLow(sourceItem)), tClass);
+//                        }
+//                    }).collect(Collectors.toList())
+//            ).fork().join();
+//            forkJoinPool.shutdown();
+            final List<T> list = jsonArray.parallelStream().map(e -> {
+                JSONObject object = ((JSONObject) e);
+                JSONObject sourceItem = object.getJSONObject("_source");
+                sourceItem.put("_id", object.getString("_id"));
+                T t = JSON.parseObject(JSON.toJSONString(replaceKeyLow(sourceItem)), tClass);
+                return t;
             }).collect(Collectors.toList());
-            List<T> list = new ArrayList<>();
-            for (int i = 0; i < source.size(); i++) {
-                final JSONObject item = source.get(i);
-                final T t = JSON.parseObject(JSON.toJSONString(replaceKeyLow(item)), tClass);
-                list.add(i, t);
-            }
             res.setRows(list);
             //处理分组查询
             res.setAggregations(jsonObject.getJSONObject("aggregations"));
@@ -427,12 +439,10 @@ public class WushigElasticConnector {
         LinkedHashMap re_map = new LinkedHashMap();
         if (re_map != null) {
             Iterator var2 = map.entrySet().iterator();
-
             while (var2.hasNext()) {
                 Map.Entry<String, Object> entry = (Map.Entry) var2.next();
-                re_map.put(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, entry.getKey()), map.get(entry.getKey()));
+                re_map.put(humpToUnderline(entry.getKey()), map.get(entry.getKey()));
             }
-
             map.clear();
         }
         return re_map;
@@ -447,14 +457,22 @@ public class WushigElasticConnector {
      **/
     private String humpToUnderline(String para) {
         StringBuilder sb = new StringBuilder(para);
-        int temp = 0;//偏移量，第i个下划线的位置是 当前的位置+ 偏移量（i-1）,第一个下划线偏移量是0
-        for (int i = 0; i < para.length(); i++) {
-            if (Character.isUpperCase(para.charAt(i))) {
-                sb.insert(i + temp, "_");
-                temp += 1;
+        int length = sb.length();
+        for (int i = 0; i < length - 1; i++) {
+            if (sb.charAt(i) == 95) {
+                char c = sb.charAt(i + 1);
+                if (c > 96 && c < 123) {
+                    sb.replace(i, i + 2, new String(new char[]{(char) (c - 32)}));
+                } else {
+                    sb.deleteCharAt(i);
+                }
+                length--;
             }
         }
-        return sb.toString().toLowerCase();
+        if (sb.charAt(length - 1) == 95) {
+            sb.deleteCharAt(length - 1);
+        }
+        return sb.toString();
     }
 
     private String resolveSearchValue(String searchValueForNameOrNo) {
