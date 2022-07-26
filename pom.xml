@@ -13,6 +13,7 @@
         <module>wushig-elastic-search-starter</module>
         <module>wushig-test-es</module>
         <module>wushig-log-info-starter</module>
+        <module>wushig-utils</module>
     </modules>
 
     <properties>
