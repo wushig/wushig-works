@@ -61,7 +61,7 @@ public class WStringUtils {
      * 回给定参数，如果为null或者trim之后为空字符串则返回空字符串
      *
      * @param str 需要操作的字符串
-     * @return
+     * @return 转换后的字符串
      */
     public static String getOrEmpty4Trim(String str) {
         return isBlack4Trim(str) ? "" : str;
@@ -71,6 +71,7 @@ public class WStringUtils {
      * 判断对象，如果是null，返回空字符串，否则返回原对象
      * 此方法转换的对象必须可以进行toString，
      * 必要时，可以根据自身需要，重写其toString方法实现自己的业务
+     *
      * @param o 操作的对象
      * @return
      */

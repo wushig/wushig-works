@@ -40,11 +40,12 @@ public class AopUtils {
                     .methodShortName(proceedingJoinPoint.getSignature().toShortString());
             result = getResult(proceedingJoinPoint);
             end = System.currentTimeMillis();
-            String prettyInfo = "\n获取到方法执行情况\n" +
-                    "- 方法名："+proceedingJoinPoint.getSignature()+"  \n" +
-                    "- 方法执行时长："+(end-start)+"  ms\n" +
-                    "- 方法参数："+arg+"\n" +
-                    "- 方法返回值："+ (JSONObject.toJSONString(result).length()>1000?JSONObject.toJSONString(result).substring(0,1000):JSONObject.toJSONString(result));
+            String prettyInfo = "\n- ————————————wushig-log————————————\n" +
+                    "- 方法名：\t\t"+proceedingJoinPoint.getSignature()+"  \n" +
+                    "- 方法执行时长：\t"+(end-start)+"  ms\n" +
+                    "- 方法参数：\t\t"+arg+"\n" +
+                    "- 方法返回值：\t"+ (JSONObject.toJSONString(result).length()>1000?JSONObject.toJSONString(result).substring(0,1000):JSONObject.toJSONString(result)) +
+                    "\n- ————————————wushig-log————————————\n\n";
             log.info(MarkerFactory.getMarker("WUSHIG"),prettyInfo);
             logEntity = logEntityBuilder
                     .executionTime(end-start)

@@ -56,6 +56,5 @@ public class WushigLogSaver {
         }
         WushigLogSaverProcesser wushigLogSaverProcesser = (WushigLogSaverProcesser)bean;
         wushigLogSaverProcesser.saveLog(logEntity);
-        log.info(MarkerFactory.getMarker("WUSHIG"),"保存日志成功");
     };
 }

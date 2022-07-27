@@ -234,8 +234,8 @@ public class WushigElasticConnector {
         ESResult<T> res = new ESResult<>();
         this.searchContent = getXmlData(xmlLocation, namespace);
         final String paseEL = this.resolveSearchContent(searchContent, param);
-        logData.append("\n当前查询信息为\n")
-                .append("- 语句："+JSON.parseObject(paseEL).toJSONString()+"\n");
+        logData.append("\n- ————————————ES查询开始————————————\n")
+                .append("- elastic语句：\t\t\t"+JSON.parseObject(paseEL).toJSONString()+"\n");
         try {
             Request request = new Request(GET, indexName + SEARCHING);
             // 设置其他一些参数比如美化json
@@ -245,11 +245,11 @@ public class WushigElasticConnector {
             String responseBody = EntityUtils.toString(response.getEntity());
             final JSONObject jsonObject = JSON.parseObject(responseBody);//(JSONObject) JSONObject.parse(responseBody);
             //处理查询时间问题
-            logData.append("- elastic耗费查询时间："+jsonObject.getInteger("took")+"\n");
+            logData.append("- elastic耗费查询时间：\t"+jsonObject.getInteger("took")+"\n");
             res.setTook(jsonObject.getInteger("took"));
             //处理总数问题
             JSONObject hits = jsonObject.getJSONObject("hits");
-            logData.append("- elastic查询总数："+ hits.getInteger("total")+"\n");
+            logData.append("- elastic查询总数：\t\t"+ hits.getInteger("total")+"\n");
             res.setTotal(hits.getInteger("total"));
             //处理查询列表
             final JSONArray jsonArray = hits.getJSONArray("hits");
@@ -276,7 +276,7 @@ public class WushigElasticConnector {
             //处理分组查询
             res.setAggregations(jsonObject.getJSONObject("aggregations"));
             final long end = System.currentTimeMillis();
-            logData.append("- 本次查询耗费总时间:"+(end - start)+"\n").append("本次查询结束\n");
+            logData.append("- 本次查询耗费总时间:\t\t"+(end - start)+"\n").append("- ————————————ES查询结束————————————\n");
             log.info(MarkerFactory.getMarker("WUSHIG"),logData.toString());
             return res;
         } catch (IOException e) {

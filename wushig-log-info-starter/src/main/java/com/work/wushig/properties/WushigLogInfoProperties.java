@@ -34,6 +34,11 @@ public class WushigLogInfoProperties {
     private String RecordLogClassInfo;
 
     /**
+     * 日志打印所有的方法返回值，默认只展示一部分
+     */
+    private boolean showAllResult = false;
+
+    /**
      * 用于记录日志的线程池核心线程数
      */
     private Integer minPoolSize = 2;
@@ -115,5 +120,13 @@ public class WushigLogInfoProperties {
 
     public void setNamePrefix(String namePrefix) {
         this.namePrefix = namePrefix;
+    }
+
+    public boolean isShowAllResult() {
+        return showAllResult;
+    }
+
+    public void setShowAllResult(boolean showAllResult) {
+        this.showAllResult = showAllResult;
     }
 }
